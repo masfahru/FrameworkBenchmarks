@@ -1,17 +1,7 @@
-import { isWorker } from 'node:cluster'
-import { cpus } from 'node:os'
 import postgres from 'postgres'
 import { clientOpts } from '../config.js'
 
-const res = await postgres(clientOpts)`SHOW max_connections`
-
-let maxConnections = 150
-
-if (isWorker) {
-  maxConnections = cpus().length > 2 ? Math.ceil(res[0].max_connections * 0.96 / cpus().length) : maxConnections
-}
-
-const sql = postgres(Object.assign({ max: maxConnections }, clientOpts))
+const sql = postgres(clientOpts)
 
 export const fortunes = async () => sql`SELECT * FROM fortune`
 
