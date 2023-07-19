@@ -10,4 +10,3 @@ export const find = async (id) => sql`SELECT id, randomNumber FROM world WHERE i
 export const getAllWorlds = async () => sql`SELECT id, randomNumber FROM world`
 
 export const update = async (obj) => sql`UPDATE world SET randomNumber = ${obj.randomNumber} WHERE id = ${obj.id}`
-
