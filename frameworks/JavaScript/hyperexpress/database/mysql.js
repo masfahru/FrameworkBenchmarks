@@ -1,4 +1,4 @@
-import { createPool, createConnection } from 'mysql2/promise'
+import { createPool, createConnection } from 'mariadb'
 import { isWorker } from 'node:cluster'
 import { cpus } from 'node:os'
 import { clientOpts } from '../config.js'
@@ -10,17 +10,14 @@ const res = await client.query('SHOW VARIABLES LIKE "max_connections"')
 let maxConnections = 150
 
 if (isWorker) {
-    maxConnections = cpus().length > 2 ? Math.ceil(res[0][0].Value * 0.96 / cpus().length) : maxConnections
+    maxConnections = cpus().length > 2 ? Math.ceil(res[0].Value * 0.96 / cpus().length) : maxConnections
 }
 
 await client.end()
 
-const pool = createPool(Object.assign({ ...clientOpts }, {
-    connectionLimit: maxConnections,
-    idleTimeout: 600000
-}))
+const pool = createPool({ ...clientOpts, connectionLimit: maxConnections })
 
-const execute = async (text, values) => (await pool.execute(text, values || undefined))[0]
+const execute = async (text, values) => await pool.execute(text, values || undefined)
 
 export const fortunes = async () => execute('SELECT * FROM fortune')
 
