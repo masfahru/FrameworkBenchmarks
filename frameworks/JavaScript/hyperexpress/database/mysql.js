@@ -1,21 +1,8 @@
-import { createPool, createConnection } from 'mariadb'
-import { isWorker } from 'node:cluster'
+import { createPool } from 'mariadb'
 import { cpus } from 'node:os'
 import { clientOpts } from '../config.js'
 
-const client = await createConnection(clientOpts)
-
-const res = await client.query('SHOW VARIABLES LIKE "max_connections"')
-
-let maxConnections = 150
-
-if (isWorker) {
-    maxConnections = cpus().length > 2 ? Math.ceil(res[0].Value * 0.96 / cpus().length) : maxConnections
-}
-
-await client.end()
-
-const pool = createPool({ ...clientOpts, connectionLimit: maxConnections })
+const pool = createPool({ ...clientOpts, connectionLimit: cpus().length * 2 + 1 })
 
 const execute = (text, values) => pool.execute(text, values || undefined)
 
