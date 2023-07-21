@@ -8,7 +8,6 @@
  */
 export function addBenchmarkHeaders(response) {
   response.writeHeader("Server", "uWebSockets.js");
-  response.writeHeader("Date", new Date().toUTCString());
 }
 
 /**
