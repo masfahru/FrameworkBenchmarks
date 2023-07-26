@@ -18,6 +18,6 @@ if (cluster.isPrimary) {
   });
 } else {
   // Cluster Node
-  await import(`./server${process.env.SERVER ?? ''}.js`);
+  await import(`./server.js`);
   console.log(`Worker ${process.pid} started`);
 }
