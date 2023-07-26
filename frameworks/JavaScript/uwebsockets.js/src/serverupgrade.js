@@ -70,7 +70,7 @@ if (db) {
         databaseJobs[i] = db.find(generateRandomNumber());
       }
 
-      await Promise.all(databaseJobs);
+      const worldObjects = await Promise.all(databaseJobs);
 
       if (response.aborted) {
         return;
@@ -79,7 +79,7 @@ if (db) {
       response.cork(() => {
         addBenchmarkHeaders(response);
         response.writeHeader("Content-Type", "application/json");
-        response.end(JSON.stringify(databaseJobs));
+        response.end(JSON.stringify(worldObjects));
       });
     } catch (error) {
       if (response.aborted) {
@@ -144,21 +144,27 @@ if (db) {
         databaseJobs[i] = db.find(generateRandomNumber());
       }
 
-      await Promise.all(databaseJobs).then((worldObjects) => {
-        worldObjects.map((worldObject) => {
-          worldObject.randomNumber = generateRandomNumber();
-          db.update(worldObject);
-        })
-      });
+      const worldObjects = await Promise.all(databaseJobs);
 
       if (response.aborted) {
         return;
       }
 
+      for (let i = 0; i < queriesCount; i++) {
+        worldObjects[i].randomNumber = generateRandomNumber();
+        databaseJobs[i] = db.update(worldObjects[i]);
+      }
+
+      if (response.aborted) {
+        return;
+      }
+
+      await Promise.all(databaseJobs);
+
       response.cork(() => {
         addBenchmarkHeaders(response);
         response.writeHeader("Content-Type", "application/json");
-        response.end(JSON.stringify(databaseJobs));
+        response.end(JSON.stringify(worldObjects));
       });
     } catch (error) {
       if (response.aborted) {
