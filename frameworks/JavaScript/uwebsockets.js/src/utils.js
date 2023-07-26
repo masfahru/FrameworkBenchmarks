@@ -3,7 +3,7 @@
  *
  * Add HTTP response headers `Server` which is required by the test suite.
  * Header `Date` is automatically added by uWebsockets
- * https://github.com/uNetworking/uWebSockets/blob/7568327834020f2ceed3ce2a823f23d0cc18cb8c/src/HttpResponse.h#L78
+ * https://github.com/uNetworking/uWebSockets/blob/master/src/HttpResponse.h#L78
  * 
  * https://github.com/TechEmpower/FrameworkBenchmarks/wiki/Project-Information-Framework-Tests-Overview
  *
