@@ -31,12 +31,7 @@ export function handleError(error, response) {
  * @param {import('uWebSockets.js').HttpRequest} request
  */
 export function getQueriesCount(request) {
-  if (request.getQuery("queries")) {
-    const queries = parseInt(request.getQuery("queries"), 10) || 1;
-    return queries >= 1 && queries <= 500 ? queries : 500;
-  }
-
-  return 1;
+  return Math.min(parseInt(request.getQuery("queries")) || 1, 500);
 }
 
 /**
@@ -44,7 +39,7 @@ export function getQueriesCount(request) {
  *
  */
 export function generateRandomNumber() {
-  return Math.floor(Math.random() * 9999) + 1;
+  return Math.floor(Math.random() * 10000) + 1;
 }
 
 /**
