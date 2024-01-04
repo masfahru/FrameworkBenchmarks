@@ -1,4 +1,4 @@
-# [Next.js by Vercek](https://nextjs.org/) - The React Framework
+# [Next.js by Vercel](https://nextjs.org/) - The React Framework
 
 ## Description
 
@@ -20,7 +20,7 @@ Whether you're an individual developer or part of a larger team, Next.js can hel
 
     http://localhost:3000/plaintext
 
-### Test 2: Plaintext
+### Test 3: Updates
 
     http://localhost:3000/updates?q=
 
