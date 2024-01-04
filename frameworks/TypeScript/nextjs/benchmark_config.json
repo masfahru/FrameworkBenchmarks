@@ -1,0 +1,25 @@
+{
+  "framework": "nextjs",
+  "tests": [{
+    "default": {
+      "json_url": "/json",
+      "plaintext_url": "/plaintext",
+      "update_url": "/updates?q=",
+      "port": 3000,
+      "approach": "Realistic",
+      "classification": "Micro",
+      "database": "Postgres",
+      "framework": "nextjs",
+      "language": "TypeScript",
+      "flavor": "None",
+      "orm": "Raw",
+      "platform": "nodejs",
+      "webserver": "None",
+      "os": "Linux",
+      "database_os": "Linux",
+      "display_name": "Nextjs [PostgreSQL]",
+      "notes": "",
+      "versus": "nodejs"
+    }
+  }]
+}

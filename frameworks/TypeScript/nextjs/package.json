@@ -1,0 +1,22 @@
+{
+  "name": "tfb-next-js",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "next": "14.0.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "postgres": "^3.4.3",
+    "prettier": "^3.1.1",
+    "typescript": "^5"
+  }
+}
