@@ -6,15 +6,16 @@ import { sql } from "@/sql";
 const generateRandomNumber = () => {
   return Math.ceil(Math.random() * 10000);
 };
+
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
 
   const q = Math.min(Number(searchParams.get("q")) || 1, 500);
 
-  const worlds: World[] = [];
+  const worlds: Promise<World>[] = [];
 
   for (let i = 0; i < q; i++) {
-    const world = await sql.begin(async (sql) => {
+    worlds.push(sql.begin(async (sql) => {
       const [world] = await sql<
         World[]
       >`SELECT id, randomnumber as randomNumber FROM world WHERE id = ${generateRandomNumber()}`;
@@ -23,9 +24,10 @@ export async function GET(request: NextRequest) {
         World[]
       >`UPDATE world SET randomnumber = ${world.randomNumber} WHERE id = ${world.id}`;
       return world;
-    });
-    worlds.push(world);
+    }));
   }
 
-  return Response.json(worlds, headers);
+  const results = await Promise.all(worlds)
+
+  return Response.json(results, headers);
 }
