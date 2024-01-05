@@ -5,5 +5,4 @@ export const sql = postgres({
   user: "benchmarkdbuser",
   password: "benchmarkdbpass",
   database: "hello_world",
-  max: 1
 });
