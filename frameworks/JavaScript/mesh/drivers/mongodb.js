@@ -1,16 +1,27 @@
 const { MongoClient } = require('mongodb');
 
-let World, Fortune;
+let db = null;
 const projection = { _id:0 };
 
-MongoClient.connect('mongodb://tfb-database:27017', { useNewUrlParser:true }, (err, ctx) => {
-	const DB = ctx.db('hello_world');
-	Fortune = DB.collection('fortune');
-	World = DB.collection('world');
-});
+const getConnection = () => {
+	if (!db) {
+		const uri = `mongodb://tfb-database:27017`;
 
-exports.fortunes = () => Fortune.find({}, { projection }).toArray();
+		const client = new MongoClient(uri);
 
-exports.find = id => World.findOne({ id }, { projection });
+		db = client.db('hello_world');
+	}
+	return db;
+}
 
-exports.update = obj => World.replaceOne({ id:obj.id }, obj);
+exports.fortunes = () => {
+	return getConnection().collection('fortune').find({}, { projection }).toArray();
+};
+
+exports.find = id => {
+	return getConnection().collection('world').findOne({ id }, { projection });
+}
+
+exports.update = obj => {
+	return getConnection().collection('world').replaceOne({ id:obj.id }, obj);
+}
